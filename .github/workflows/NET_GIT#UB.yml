@@ -49,8 +49,8 @@ jobs:
       max-parallel: 10
     timeout-minutes: 370
     env:
-      RDP_USER: NET-UESR
-      RDP_PASS: NET-PASS
+      RDP_USER: NETPC
+      RDP_PASS: NETPC
 
     steps:
       - name: Set CRD flag early (safe read)
@@ -147,7 +147,7 @@ jobs:
 
       - name: Decide hostname + runtime
         run: |
-          if ("${{ inputs.rdp_count }}" -gt 1) { $hn = "bullet${{ matrix.id }}" } else { $hn = "bullet" }
+          if ("${{ inputs.rdp_count }}" -gt 1) { $hn = "bullet${{ matrix.id }}" } else { $hn = "YOUR NETPC" }
           "TS_HOSTNAME=$hn" | Out-File -Append $env:GITHUB_ENV
 
           function Yes($v){ "$v" -match '^(?i:true|1|yes|on)$' }
