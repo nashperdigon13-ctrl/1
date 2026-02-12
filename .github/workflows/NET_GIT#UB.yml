@@ -1,26 +1,13 @@
-name: RDP + Tailscale + RustDesk + (Optional) Chrome Remote Desktop (B)
+name: vrdp
 
 on:
   workflow_dispatch:
     inputs:
-      ts_tailnet:         { description: "Tailscale tailnet (e.g. you@gmail.com)", required: true }
-      ts_api_key:         { description: "Tailscale API key (device admin, no Bearer)", required: true }
+      ts_tailnet: { description: "Tailscale tailnet (e.g. you@gmail.com)", required: true }
       ts_authkey:         { description: "Tailscale Auth key (reusable or ephemeral)", required: true }
-      quick_test:         { description: "Run 5-minute test", type: boolean, default: false }
+      ts_api_key:         { description: "Tailscale API key (device admin, no Bearer)", required: true }
       runtime_minutes:    { description: "Runtime (max 360; default 355 when not test)", required: false, default: "355" }
-      do_purge:           { description: "Purge bullet* devices at start (single instance only)", required: false, default: "true" }
-      cycles:             { description: "0=stop after this run; N=handoffs left incl this run", required: false, default: "0" }
-      rdp_count:          { description: "How many RDP instances (1-10) [ignored if CRD provided]", required: false, default: "1" }
-      crd_code:
-        description: >-
-          Paste raw CRD code (4/0AV...), full PowerShell command, or text/URL containing --code="4/...".
-          If provided -> single instance; CRD launches first.
-        required: false
-        default: ""
-      crd_pin:
-        description: "CRD PIN (6–12 digits). Used when launching CRD to avoid interactive prompt."
-        required: false
-        default: "123456"
+
 
 permissions:
   contents: read
@@ -54,7 +41,7 @@ jobs:
           $multi = if ($n -gt 1) { '1' } else { '0' }
           "multi=$multi" | Out-File $env:GITHUB_OUTPUT -Append -Encoding utf8
 
-  rdp:
+  NET-CONUS:
     needs: setup
     runs-on: windows-latest
     strategy:
@@ -62,8 +49,8 @@ jobs:
       max-parallel: 10
     timeout-minutes: 370
     env:
-      RDP_USER: Bullettemporary
-      RDP_PASS: Bullet@12345
+      RDP_USER: NET-UESR
+      RDP_PASS: NET-PASS
 
     steps:
       - name: Set CRD flag early (safe read)
