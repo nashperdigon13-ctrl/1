@@ -49,8 +49,8 @@ jobs:
       max-parallel: 10
     timeout-minutes: 370
     env:
-      RDP_USER: NETPC
-      RDP_PASS: NETPC
+      RDP_USER: Bullettemporary
+      RDP_PASS: Bullet@12345
 
     steps:
       - name: Set CRD flag early (safe read)
